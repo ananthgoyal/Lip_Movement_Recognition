@@ -23,7 +23,7 @@ mouth_cascade = cv2.CascadeClassifier('/Users/ananthgoyal/PycharmProjects/recogn
 cap = cv2.VideoCapture("/Users/ananthgoyal/PycharmProjects/recognition_test/Resources/satsang_test.mov")#play.url
 video_path = "/Users/ananthgoyal/PycharmProjects/recognition_test/Resources/satsang_test.mov"
 
-cap.set(cv2.CAP_PROP_POS_FRAMES, 25000)
+cap.set(cv2.CAP_PROP_POS_FRAMES, 000)
 # To use a video file as input
 # cap = cv2.VideoCapture('filename.mp4')
 
@@ -36,9 +36,10 @@ count = 0
 ds_factor = 0.5
 
 now = time.perf_counter()
+timeStamps = []
 
 while True:
-    print(time.perf_counter())
+    #print(time.perf_counter())
     # Read the frame
     time_elapsed = time.time() - prev
     _, img = cap.read()
@@ -68,10 +69,14 @@ while True:
             elif time.time() >= finalTime:
                 if((count > 30) and (count < 85)):
                     print("Talking")
+                    timeStamps.append(time.perf_counter())
                     cv2.putText(img, "Talking", (x-50, y), cv2.FONT_HERSHEY_SIMPLEX, 1, 255)
+                    print(*timeStamps)
                 count = 0
             elif time.time() < finalTime:
+                #pass
                 print(count)
+                #print("")
             #print("mouth")
             y = int(y - 0.15 * h)
             cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 3)
